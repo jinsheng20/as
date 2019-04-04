@@ -12,8 +12,7 @@ MODULES = ['ECUM','SCHM','MCU',
            'CANNM','CANSM','NM','OSEKNM','XCP',
            'DCM',
            'PORT','DIO','DEMO_LED_APP',
-           'ASKAR',
-           'USB','USB_CAN'
+           'ASKAR'
            ]
 
 ARCH='stm32f1'
@@ -31,7 +30,7 @@ if(asenv['RELEASE']=='asboot'):
                'CLIB_STDIO_PRINTF',
                'CLIB_MISCLIB',
                'TINYOS',
-               'USB','USB_CAN','CANTP_MINI','DCM_MINI',
+               'CANTP_MINI','DCM_MINI',
                'SHELL','FLASH_CMD','MEM_CMD','JMP_CMD','CLIB_STRTOK_R'
                ]
     lds = '%s/script/linker-flsdrv.lds'%(cwd)

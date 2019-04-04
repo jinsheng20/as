@@ -59,25 +59,26 @@ MODULES = ['ECUM','SCHM','MCU',
            'DCM','CANNM','CANSM','NM','OSEKNM','XCP',
            'PORT','DIO','EEP','FLS','STMO',
            'EA','FEE','MEMIF','NVM',
-           'LCD','FDT',
+           'LCD',
            'TINYOS',
            'J1939TP',
            'TRACE',
            ]
 
-MODULES.append('AWS')
+#MODULES.append('AWS')
 
 ARCH='posix'
 arch='posix'
 
-MODULES += ['SOAD','DOIP','LWIP','LWIP_POSIX_ARCH']
+#MODULES += ['SOAD','DOIP','LWIP','LWIP_POSIX_ARCH']
 
 if(os.getenv('VSOMEIP')=='YES'):
     MODULES += ['VSOMEIP']
 else:
-    MODULES += ['SD']
+    #MODULES += ['SD']
+    pass
 
-MODULES += ['FATFS','LWEXT4','VFS','FTP','DEV']
+MODULES += ['FATFS','LWEXT4','VFS','DEV']
 
 if(IsPlatformWindows()):
     MODULES += ['CLIB_STRTOK_R']
