@@ -46,7 +46,7 @@
 /* ============================ [ MACROS    ] ====================================================== */
 #define CAN_MAX_DLEN 64 /* 64 for CANFD */
 #define CAN_MTU sizeof(struct can_frame)
-#define CAN_PORT_MIN  80
+#define CAN_PORT_MIN  81
 #define CAN_BUS_NODE_MAX 32	/* maximum node on the bus port */
 
 #define CAN_FRAME_TYPE_RAW 0
@@ -163,7 +163,7 @@ static int init_socket(int port)
 	service.sin_port = (u_short)htons(CAN_PORT_MIN+port);
 	ercd = bind(s, (struct sockaddr *) &(service), sizeof (struct sockaddr));
 	if (ercd < 0) {
-		printf("bind to port %d failed with error: %d\n", port, WSAGetLastError());
+		printf("bind to port %d failed with error: %d\n", service.sin_port, WSAGetLastError());
 		closesocket(s);
 		return FALSE;
 	}
@@ -433,7 +433,11 @@ int main(int argc,char* argv[])
 	}
 	gettimeofday(&m0,NULL);
 	if(FALSE==init_socket(atoi(argv[1])))
-	{
+	{	
+		printf("init socket ok\n");
+		while(1){
+		}
+		
 		return -1;
 	}
 
@@ -449,7 +453,6 @@ int main(int argc,char* argv[])
 		argc = argc - 2;
 		argv = argv + 2;
 	}
-
 	#ifdef USE_RX_DAEMON
 	if( 0 == pthread_create(&(socketH->rx_thread),NULL,rx_daemon,NULL))
 	{

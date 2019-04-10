@@ -48,7 +48,7 @@
 /* ============================ [ MACROS    ] ====================================================== */
 #define CAN_MAX_DLEN 64 /* 64 for CANFD */
 #define CAN_MTU sizeof(struct can_frame)
-#define CAN_PORT_MIN  80
+#define CAN_PORT_MIN  81
 
 #define CAN_FRAME_TYPE_RAW 0
 #define CAN_FRAME_TYPE_MTU 1
