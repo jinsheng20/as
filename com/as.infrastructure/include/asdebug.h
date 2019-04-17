@@ -28,7 +28,7 @@
 #endif
 
 /* levels for log output */
-#define AS_LOG_DEFAULT  1
+#define AS_LOG_DEFAULT  0
 #define AS_LOG_STDOUT  	AS_LOG_DEFAULT
 #define AS_LOG_STDERR  	AS_LOG_DEFAULT
 #define AS_LOG_ON       AS_LOG_DEFAULT

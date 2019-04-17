@@ -33,7 +33,7 @@
 
 
 void Com_MainFunctionRx(void) {
-	//ASLOG(MEDIUM, ("Com_MainFunctionRx() excecuting\n"));
+	ASLOG(MEDIUM, ("Com_MainFunctionRx() excecuting\n"));
 	for (uint16 pduId = 0; !ComConfig->ComIPdu[pduId].Com_Arc_EOL; pduId++) {
 		boolean pduUpdated = false;
 		const ComIPdu_type *IPdu = GET_IPdu(pduId);
@@ -53,6 +53,7 @@ void Com_MainFunctionRx(void) {
 				if (Arc_Signal->Com_Arc_DeadlineCounter == 0) {
 					if (signal->ComRxDataTimeoutAction == COM_TIMEOUT_DATA_ACTION_REPLACE) {
 						// Replace signal data.
+						ASLOG(MEDIUM, ("Replace signal data.\n"));
 						Arc_Signal->ComSignalUpdated = true;
 						Com_WriteSignalDataToPdu(signal->ComHandleId, signal->ComSignalInitValue);
 
@@ -74,7 +75,7 @@ void Com_MainFunctionRx(void) {
 		}
 		if (pduUpdated && IPdu->ComIPduSignalProcessing == COM_DEFERRED && IPdu->ComIPduDirection == COM_RECEIVE) {
 			UnlockTpBuffer(getPduId(IPdu));
-
+			ASLOG(MEDIUM, ("Com_MainFunctionRx() COM_DEFERRED COM_RECEIVE\n"));
 			/* Can only have one dynamic length signal for each PDU so just copy the length */
 			Arc_IPdu->Com_Arc_DeferredDynSignalLength = Arc_IPdu->Com_Arc_DynSignalLength;
 
@@ -98,7 +99,7 @@ void Com_MainFunctionRx(void) {
 void Com_MainFunctionTx(void) {
 	imask_t irq_state;
 
-	//ASLOG(MEDIUM, ("Com_MainFunctionTx() excecuting\n"));
+	ASLOG(MEDIUM, ("Com_MainFunctionTx() excecuting\n"));
 	// Decrease timers.
 	const ComIPdu_type *IPdu;
 	for (uint16 i = 0; !ComConfig->ComIPdu[i].Com_Arc_EOL; i++) {

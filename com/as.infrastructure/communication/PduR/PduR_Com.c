@@ -16,10 +16,12 @@
 #ifdef USE_PDUR
 
 #include "PduR.h"
+#include "asdebug.h"
 
 #if (PDUR_ZERO_COST_OPERATION == STD_OFF) && (PDUR_COM_SUPPORT == STD_ON)
 
 Std_ReturnType PduR_ComTransmit(PduIdType ComTxPduId, const PduInfoType* PduInfoPtr) {
+	ASLOG(LOW, ("PduR_ComTransmit\n"));
 	return PduR_ARC_Transmit(ComTxPduId, PduInfoPtr, 0x15);
 }
 

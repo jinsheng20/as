@@ -293,7 +293,7 @@ void Com_ReadSignalDataFromPduBuffer(
 void Com_WriteSignalDataToPdu(
 			const Com_SignalIdType signalId,
 			const void *signalData) {
-
+    ASLOG(LOW, ("Com_WriteSignalDataToPdu\n"));
 	// Get PDU
 	const ComSignal_type *Signal     = GET_Signal(signalId);
 	const ComIPdu_type   *IPdu       = GET_IPdu(Signal->ComIPduHandleId);

@@ -134,7 +134,7 @@ Std_ReturnType PduR_ARC_Transmit(PduIdType PduId, const PduInfoType* PduInfo, ui
 
 	for (i = 0; route->PduRDestPdus[i] != NULL; i++) {
 		const PduRDestPdu_type * destination = route->PduRDestPdus[i];
-
+		ASLOG(LOW, ("PduR_ARC_Transmit\n"));
 		retVal |= PduR_ARC_RouteTransmit(destination, PduInfo);
 	}
 	return retVal;

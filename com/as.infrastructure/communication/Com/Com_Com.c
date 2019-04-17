@@ -46,7 +46,7 @@ uint8 Com_SendSignal(Com_SignalIdType SignalId, const void *SignalDataPtr) {
 	if (isPduBufferLocked(getPduId(IPdu))) {
 		return COM_BUSY;
 	}
-	//ASLOG(LOW, ("Com_SendSignal: id %d,  nBytes %d,  BitPosition %d,  intVal %d\n",  SignalId,  nBytes,  signal->ComBitPosition, (uint32)*(uint8 *)SignalDataPtr));
+	ASLOG(LOW, ("Com_SendSignal: id %d,  BitPosition %d,  intVal %d\n",  SignalId, Signal->ComBitPosition, (uint32)*(uint8 *)SignalDataPtr));
 
 	imask_t irq_state;
 
@@ -205,7 +205,11 @@ Std_ReturnType Com_Internal_TriggerIPduSend(PduIdType ComTxPduId) {
 	Com_Arc_IPdu_type *Arc_IPdu = GET_ArcIPdu(ComTxPduId);
     imask_t state;
     Irq_Save(state);
-
+    ASLOG(LOW,
+		("CanId=%X, CanDlc=%X [%02X,%02X,%02X,%02X,%02X,%02X,%02X,%02X]\n",
+		(uint32)IPdu->ArcIPduOutgoingId, (uint32)IPdu->ComIPduSize,
+		((uint8 *)IPdu->ComIPduDataPtr)[0], ((uint8 *)IPdu->ComIPduDataPtr)[1], ((uint8 *)IPdu->ComIPduDataPtr)[2], ((uint8 *)IPdu->ComIPduDataPtr)[3],
+		((uint8 *)IPdu->ComIPduDataPtr)[4], ((uint8 *)IPdu->ComIPduDataPtr)[5], ((uint8 *)IPdu->ComIPduDataPtr)[6], ((uint8 *)IPdu->ComIPduDataPtr)[7]));
     if( isPduBufferLocked(ComTxPduId) ) {
     	return E_NOT_OK;
     }
@@ -231,7 +235,11 @@ Std_ReturnType Com_Internal_TriggerIPduSend(PduIdType ComTxPduId) {
 		} else {
 			PduInfoPackage.SduLength = IPdu->ComIPduSize;
 		}
-
+		ASLOG(LOW,
+		("CanId=%X, CanDlc=%X [%02X,%02X,%02X,%02X,%02X,%02X,%02X,%02X]\n",
+		(uint32)IPdu->ArcIPduOutgoingId, (uint32)PduInfoPackage.SduLength,
+		(uint32)PduInfoPackage.SduDataPtr[0], (uint32)PduInfoPackage.SduDataPtr[1], (uint32)PduInfoPackage.SduDataPtr[2], (uint32)PduInfoPackage.SduDataPtr[3],
+		(uint32)PduInfoPackage.SduDataPtr[4], (uint32)PduInfoPackage.SduDataPtr[5], (uint32)PduInfoPackage.SduDataPtr[6], (uint32)PduInfoPackage.SduDataPtr[7]));
 		// Send IPdu!
 		if (PduR_ComTransmit(IPdu->ArcIPduOutgoingId, &PduInfoPackage) == E_OK) {
 			// Clear all update bits for the contained signals
@@ -256,6 +264,7 @@ Std_ReturnType Com_Internal_TriggerIPduSend(PduIdType ComTxPduId) {
 }
 //lint -esym(904, Com_TriggerIPduSend) //PC-Lint Exception of rule 14.7
 void Com_TriggerIPduSend(PduIdType ComTxPduId) {
+	ASLOG(LOW, ("Com_TriggerIPduSend\n"));
 	Com_Internal_TriggerIPduSend(ComTxPduId);
 }
 
@@ -283,7 +292,7 @@ void Com_RxIndication(PduIdType ComRxPduId, const PduInfoType* PduInfoPtr) {
 			return;
 		}
 	}
-
+	ASLOG(LOW, ("Com_RxIndication "));
 	// Copy IPDU data
 	memcpy(IPdu->ComIPduDataPtr, PduInfoPtr->SduDataPtr, IPdu->ComIPduSize);
 

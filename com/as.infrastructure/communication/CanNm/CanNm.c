@@ -58,7 +58,7 @@
 /** @req CANNM083 */
 #include "CanIf.h"
 #include "Nm.h"
-
+#include "asdebug.h"
 #include <string.h>
 
 #if (CANNM_DEV_ERROR_DETECT == STD_ON)
@@ -417,7 +417,7 @@ void CanNm_MainFunction( NetworkHandleType nmChannelHandle ) {
 	CANNM_VALIDATE_INIT_NORV(CANNM_SERVICEID_ARC_MAINFUNCTION);
 
 	/** @req CANNM108 */
-
+	ASLOG(LOW, ("CanNm_MainFunction\n"));
 	const CanNm_ChannelType* ChannelConf = &CanNm_ConfigPtr->Channels[nmChannelHandle];
 	CanNm_Internal_ChannelType* ChannelInternal = &CanNm_Internal.Channels[nmChannelHandle];
 	if (ChannelInternal->Mode == NM_MODE_NETWORK) {

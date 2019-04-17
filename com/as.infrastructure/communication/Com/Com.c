@@ -226,7 +226,7 @@ void Com_Init(const Com_ConfigType *config ) {
 
 	//lint --e(928)	PC-Lint exception Misra 11.4, Must be like this. /tojo
 	uint8 endiannessByte = *(const uint8 *)&endianness_test;
-
+	ASLOG(LOW, ("Com_Init\n"));
 #if !defined(USE_SHELL_SYMTAB) && defined(USE_SHELL)
 	SHELL_AddCmd(&cmdComLsSg);
 	SHELL_AddCmd(&cmdComWrSg);
@@ -374,7 +374,7 @@ BufReq_ReturnType Com_CopyTxData(PduIdType PduId, PduInfoType* PduInfoPtr, Retry
 	boolean dirOk = ComConfig->ComIPdu[PduId].ComIPduDirection == COM_SEND;
 	boolean sizeOk;
 	(void)RetryInfoPtr; // get rid of compiler warning
-
+	ASLOG(LOW, ("Com_CopyTxData\n"));
 	Irq_Save(state);
 	sizeOk = IPdu->ComIPduSize >= Com_BufferPduState[PduId].currentPosition + PduInfoPtr->SduLength;
 	Com_BufferPduState[PduId].locked = true;
@@ -396,7 +396,7 @@ BufReq_ReturnType Com_CopyRxData(PduIdType PduId, const PduInfoType* PduInfoPtr,
 	boolean sizeOk;
 	boolean dirOk;
 	boolean lockOk;
-
+	ASLOG(LOW, ("Com_CopyRxData\n"));
 	Irq_Save(state);
 
 	remainingBytes = GET_IPdu(PduId)->ComIPduSize - Com_BufferPduState[PduId].currentPosition;

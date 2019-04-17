@@ -14,6 +14,7 @@
  */
 /* ============================ [ INCLUDES  ] ====================================================== */
 #include "Rte_Gauge.h"
+#include "asdebug.h"
 #ifdef USE_STMO
 #include "Stmo.h"
 #endif
@@ -47,6 +48,7 @@ static void sample_pointer(void)
 
 #ifdef COM_SID_TachoSpeed
 	(void)Com_ReceiveSignal(COM_SID_TachoSpeed,&TachoSpeed);
+	ASLOG(LOW, ("read TachoSpeed:%d %d\n", COM_SID_TachoSpeed, TachoSpeed));
 	tacho = TachoSpeed;
 #else
 	if(tacho_up)
@@ -74,6 +76,7 @@ static void sample_pointer(void)
 
 #ifdef COM_SID_VehicleSpeed
 	(void)Com_ReceiveSignal(COM_SID_VehicleSpeed,&VehicleSpeed);
+	ASLOG(LOW, ("read VehicleSpeed:%d %d\n", COM_SID_VehicleSpeed, VehicleSpeed));
 	speed = VehicleSpeed;
 #else
 	if(speed_up)

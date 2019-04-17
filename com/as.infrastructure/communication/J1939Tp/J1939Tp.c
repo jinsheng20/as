@@ -603,7 +603,7 @@ Std_ReturnType J1939Tp_Transmit(PduIdType TxSduId, const PduInfoType* TxInfoPtr)
 		J1939Tp_Internal_ReportError(J1939TP_TRANSMIT_ID,J1939TP_E_UNINIT);
 	}
 	#endif
-
+	ASLOG(LOW, ("J1939Tp_Transmit \n"));
 	/** @req J1939TP0030 */
 	if (globalState.State == J1939TP_ON) {
 		J1939Tp_Internal_PgInfoType* PgInfo;

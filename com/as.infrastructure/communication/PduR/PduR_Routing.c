@@ -56,6 +56,7 @@ Std_ReturnType PduR_ARC_RouteTransmit(const PduRDestPdu_type * destination, cons
 	switch (destination->DestModule) {
 	case ARC_PDUR_CANIF:
 #if PDUR_CANIF_SUPPORT == STD_ON
+		ASLOG(LOW, ("PduR_ARC_RouteTransmit state: ARC_PDUR_CANIF\n"));
 		retVal = CanIf_Transmit(destination->DestPduId, pduInfo);
 #endif
 		break;

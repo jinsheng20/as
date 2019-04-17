@@ -1,0 +1,35 @@
+
+选择pc模拟功能板 posix
+选用模块  
+Modules: ['ARCH_POSIX', 'RTE', 'RTE_SWC_TELLTALE', 'RTE_SWC_GAUGE', 'CAN', 'DIO', 'FATFS_DRV', 'LWEXT4_DRV', 'EEP', 'FLS', 'LCD', 'GTK', 'MCU', 'PORT', 'STMO', 'NO_ETH_DRV', 'CANIF', 'CANNM', 'CANSM', 'CANTP', 'COM', 'COMM', 'NM', 'OSEKNM', 'PDUR', 'XCP', 'J1939TP', 'DCM', 'DEM', 'DET', 'EA', 'FEE', 'MEMIF', 'NVM', 'CRC', 'ECUM', 'SG', 'SCHM', 'DEFAULT_TINYOS', 'TINYOS', 'CLIB_ASHEAP', 'CLIB_MBOX', 'CLIB_MISCLIB', 'CLIB_QSORT', 'CLIB_STDIO_PRINTF', 'CLIB_STDIO_CAN', 'CLIB_STRTOK_R', 'IFX', 'LIBFIXMATH', 'SG_DEMO_CLUSTER']
+socketwin_can_driver.c 和socketwin_can.c   会编译生成exe 进行模拟收发。端口冲突可以更改端口（通过CAN_PORT_MIN修改，修改两处）
+
+as\release\ascore\SgDesign\ 目录下是lcd显示图片和生成的.c数组。
+
+as\com\as.tool\config.infrastructure.gui\Sg.py 
+
+as\com\as.application\swc\telltale\ 目录
+
+Swc_Telltale.c 运行控制了 只是图标的显示。
+Rte_Write_Telltale_TelltaleAirbagStatusPort_TelltaleAirbagStatus函数 -> Rte_Write_TelltaleAirbagStatusPort_TelltaleAirbagStatus 宏
+->RTE_WRITE_PORT_FOR_TELLTALE(name) 宏
+
+
+指针控制
+TASK(Rte_Runnable) -》Gauge_Run -》sample_pointer(); -》 Stmo_SetPosDegree 函数(设置角度 接收角度信息)->Stmo_MainFunction 循环处理(根据设置进行处理) 
+
+Com_ReceiveSignal
+
+CanIf_RxIndication  接收底层数据  后到 CanIf_MainFunction(或 TASK(TaskCanIf))->scheduldRxFifo  传给 scheduleRxIndication 函数
+
+scheduleRxIndication 负责把数据传递给上层 
+1. CANNM  CanNm_RxIndication -> (Can 网络状态管理)  CanNm_Internal_BusSleep_to_BusSleep -》CanNm_Internal_BusSleep_to_BusSleep -》  
+	Nm_NetworkStartIndication(ChannelConf->NmNetworkHandle);  -》 ComM_Nm_NetworkStartIndication
+
+2. CANTP  CanTp_RxIndication
+
+3. J1939  J1939Tp_RxIndication -> J1939Tp_Internal_RxIndication_Direct  -> PduR_J1939TpCopyRxData -> Com_CopyRxData
+
+
+1. Com_Sched.c  实现Com_MainFunctionTx Com_MainFunctionRx
+2. 

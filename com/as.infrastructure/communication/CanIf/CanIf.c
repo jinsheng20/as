@@ -777,7 +777,7 @@ Std_ReturnType CanIf_Transmit(PduIdType CanTxPduId,
   canPdu.length = PduInfoPtr->SduLength;
   canPdu.sdu = PduInfoPtr->SduDataPtr;
   canPdu.swPduHandle = CanTxPduId;
-
+  ASLOG(LOW, ("CanIf_Transmit send can data\n"));
   rVal = Can_Write(txEntry->CanIfCanTxPduHthRef->CanIfHthIdSymRef, &canPdu);
 
   if (rVal == CAN_NOT_OK){
