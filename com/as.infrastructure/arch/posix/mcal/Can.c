@@ -540,7 +540,7 @@ Can_ReturnType Can_Write( Can_Arc_HTHType hth, Can_PduType *pduInfo ) {
 			ercd = RPmsg_Send(RPMSG_CHL_CAN,&rpmsg,sizeof(rpmsg));
 		  } while(ercd != E_OK);
 		#else
-
+          ASLOG(CAN, ("no defined __AS_CAN_BUS__\n"));
 		  if(FALSE == can_write(busid,pduInfo->id,pduInfo->length,pduInfo->sdu))
 		  {
 			  asAssert(0);

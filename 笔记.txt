@@ -12,7 +12,7 @@ as\com\as.application\swc\telltale\ 目录
 
 Swc_Telltale.c 运行控制了 只是图标的显示。
 Rte_Write_Telltale_TelltaleAirbagStatusPort_TelltaleAirbagStatus函数 -> Rte_Write_TelltaleAirbagStatusPort_TelltaleAirbagStatus 宏
-->RTE_WRITE_PORT_FOR_TELLTALE(name) 宏
+->RTE_WRITE_PORT_FOR_TELLTALE(name) 宏  -》void Swc_TelltaleManager(void)
 
 
 指针控制
@@ -23,13 +23,24 @@ Com_ReceiveSignal
 CanIf_RxIndication  接收底层数据  后到 CanIf_MainFunction(或 TASK(TaskCanIf))->scheduldRxFifo  传给 scheduleRxIndication 函数
 
 scheduleRxIndication 负责把数据传递给上层 
-1. CANNM  CanNm_RxIndication -> (Can 网络状态管理)  CanNm_Internal_BusSleep_to_BusSleep -》CanNm_Internal_BusSleep_to_BusSleep -》  
-	Nm_NetworkStartIndication(ChannelConf->NmNetworkHandle);  -》 ComM_Nm_NetworkStartIndication
+	1. CANNM  CanNm_RxIndication -> (Can 网络状态管理)  CanNm_Internal_BusSleep_to_BusSleep -》CanNm_Internal_BusSleep_to_BusSleep -》  
+		Nm_NetworkStartIndication(ChannelConf->NmNetworkHandle);  -》 ComM_Nm_NetworkStartIndication
 
-2. CANTP  CanTp_RxIndication
+	2. CANTP  CanTp_RxIndication
 
-3. J1939  J1939Tp_RxIndication -> J1939Tp_Internal_RxIndication_Direct  -> PduR_J1939TpCopyRxData -> Com_CopyRxData
+	3. J1939  J1939Tp_RxIndication -> J1939Tp_Internal_RxIndication_Direct  -> PduR_J1939TpCopyRxData -> Com_CopyRxData
 
 
-1. Com_Sched.c  实现Com_MainFunctionTx Com_MainFunctionRx
-2. 
+1. Com_Sched.c    实现 Com_MainFunctionTx Com_MainFunctionRx
+2. Com_Com.c      Com_Internal_TriggerIPduSend 函数通过 ComTxPduId 设置发送数据
+3. PduR_Com.c     PduR_ComTransmit  增加 serviceId
+4. PduR_Logic.c   PduR_ARC_Transmit 
+5. PduR_Routing.c PduR_ARC_RouteTransmit 根据不同选项进入不同接口
+6. CanIf.c        CanIf_Transmit
+7. Can.c          Can_Write
+8. laslib.c       can_write 通过socket 发送出去。
+
+Can_MainFunction_Read
+
+发送的数据从哪里来
+如何进行接收

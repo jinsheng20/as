@@ -206,8 +206,8 @@ Std_ReturnType Com_Internal_TriggerIPduSend(PduIdType ComTxPduId) {
     imask_t state;
     Irq_Save(state);
     ASLOG(LOW,
-		("CanId=%X, CanDlc=%X [%02X,%02X,%02X,%02X,%02X,%02X,%02X,%02X]\n",
-		(uint32)IPdu->ArcIPduOutgoingId, (uint32)IPdu->ComIPduSize,
+		("ComTxPduId %d CanId=%X, CanDlc=%X [%02X,%02X,%02X,%02X,%02X,%02X,%02X,%02X]\n",
+		ComTxPduId, (uint32)IPdu->ArcIPduOutgoingId, (uint32)IPdu->ComIPduSize,
 		((uint8 *)IPdu->ComIPduDataPtr)[0], ((uint8 *)IPdu->ComIPduDataPtr)[1], ((uint8 *)IPdu->ComIPduDataPtr)[2], ((uint8 *)IPdu->ComIPduDataPtr)[3],
 		((uint8 *)IPdu->ComIPduDataPtr)[4], ((uint8 *)IPdu->ComIPduDataPtr)[5], ((uint8 *)IPdu->ComIPduDataPtr)[6], ((uint8 *)IPdu->ComIPduDataPtr)[7]));
     if( isPduBufferLocked(ComTxPduId) ) {
